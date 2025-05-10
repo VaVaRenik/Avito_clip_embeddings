@@ -2,8 +2,5 @@ version: "3.8"
 services:
   app:
     build: .
-#     volumes:
-#       - app_data:/app
-
-# volumes:
-#   app_data:
+    volumes:
+      - ./app:/app
