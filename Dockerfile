@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Создание директорий для данных и результатов
+RUN mkdir app/
 RUN mkdir -p /app/data /app/output
 
 # Установка pip-зависимостей
