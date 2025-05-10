@@ -23,18 +23,18 @@ WORKDIR /app
 
 # Скачивание датасетов
 RUN kaggle datasets download -d vanyarekunov/avito-images-1-3 -p /app/data --unzip && \
-    kaggle datasets download -d vavarenikk/avito-part-1-patch-2 -p /app/data --unzip && \
-    kaggle datasets download -d vavarenikk/avito-part-2-patch-1 -p /app/data --unzip && \
-    kaggle datasets download -d vavarenikk/avito-part-2-patch-2 -p /app/data --unzip && \
-    kaggle datasets download -d vavarenikk/avito-part-3-patch-1 -p /app/data --unzip && \
-    kaggle datasets download -d vavarenikk/avito-part-3-patch-2 -p /app/data --unzip && \
-    kaggle datasets download -d vavarenikk/avito-part-4-patch-1 -p /app/data --unzip && \
-    kaggle datasets download -d vavarenikk/avito-part-4-patch-2 -p /app/data --unzip && \
-    kaggle datasets download -d vanyarekunov/avito-test-patch-1 -p /app/data --unzip && \
-    kaggle datasets download -d vanyarekunov/avtio-test-patch-2 -p /app/data --unzip && \
+    # kaggle datasets download -d vavarenikk/avito-part-1-patch-2 -p /app/data --unzip && \
+    # kaggle datasets download -d vavarenikk/avito-part-2-patch-1 -p /app/data --unzip && \
+    # kaggle datasets download -d vavarenikk/avito-part-2-patch-2 -p /app/data --unzip && \
+    # kaggle datasets download -d vavarenikk/avito-part-3-patch-1 -p /app/data --unzip && \
+    # kaggle datasets download -d vavarenikk/avito-part-3-patch-2 -p /app/data --unzip && \
+    # kaggle datasets download -d vavarenikk/avito-part-4-patch-1 -p /app/data --unzip && \
+    # kaggle datasets download -d vavarenikk/avito-part-4-patch-2 -p /app/data --unzip && \
+    # kaggle datasets download -d vanyarekunov/avito-test-patch-1 -p /app/data --unzip && \
+    # kaggle datasets download -d vanyarekunov/avtio-test-patch-2 -p /app/data --unzip && \
     kaggle datasets download -d vanyarekunov/avito-tables -p /app/data --unzip
 
 # Копирование твоего проекта (если нужно)
 COPY . .
 
-CMD ["bash"]
+CMD ["python", "main.py"]
