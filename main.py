@@ -9,6 +9,7 @@ import pandas as pd
 from PIL import Image
 
 import torch
+import clip
 import torch.nn.functional as F
 from transformers import CLIPModel, CLIPProcessor
 from kaggle.api.kaggle_api_extended import KaggleApi
@@ -27,37 +28,29 @@ def find_image_path(image_id, root_dirs, glob_pattern="train_images_part_"):
 
 
 class CLIPEmbedder:
-    def __init__(self, clip_model: CLIPModel, clip_processor: CLIPProcessor, device: str = None):
+    def __init__(self, model_name="ViT-B/32", device=None):
         self.device = device if device is not None else ("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = clip_model.to(self.device)
-        self.processor = clip_processor
+        self.model, self.preprocess = clip.load(model_name, device=self.device)
         self.model.eval()
-        self.embedding_dim = self.model.config.projection_dim
+        self.embedding_dim = self.model.visual.output_dim
         self.max_length = 77
 
     def get_text_embedding(self, texts):
-        inputs = self.processor(
-            text=texts,
-            return_tensors="pt",
-            padding='max_length',
-            truncation=True,
-            max_length=self.max_length
-        ).to(self.device)
-
+        if isinstance(texts, str):
+            texts = [texts]
         with torch.no_grad():
-            outputs = self.model.get_text_features(**inputs)
-            outputs = F.normalize(outputs, dim=1).cpu().numpy()
-
-        return outputs
+            tokens = clip.tokenize(texts, truncate=True).to(self.device)
+            text_features = self.model.encode_text(tokens)
+            text_features = F.normalize(text_features, dim=1).cpu().numpy()
+        return text_features
 
     def get_image_embedding(self, images):
-        inputs = self.processor(images=images, return_tensors="pt", padding=True).to(self.device)
-
+        # images: list of PIL Images
+        processed = torch.stack([self.preprocess(img) for img in images]).to(self.device)
         with torch.no_grad():
-            outputs = self.model.get_image_features(**inputs)
-            outputs = F.normalize(outputs, dim=1).cpu().numpy()
-
-        return outputs
+            image_features = self.model.encode_image(processed)
+            image_features = F.normalize(image_features, dim=1).cpu().numpy()
+        return image_features
 
 
 def encode_text(texts, embedder, batchsize=32):
@@ -274,20 +267,8 @@ class EmbeddingBuilder:
 
 
 def process_df(df, root_dirs, glob_pattern):
-    clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-    clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-
-    text_embedder = CLIPEmbedder(
-        clip_model=clip_model,
-        clip_processor=clip_processor,
-        device='cuda'
-    )
-
-    image_embedder = CLIPEmbedder(
-        clip_model=clip_model,
-        clip_processor=clip_processor,
-        device="cuda"
-    )
+    text_embedder = CLIPEmbedder(device='cuda')
+    image_embedder = text_embedder  # Один объект CLIP достаточно, т.к. модель одна
 
     builder = EmbeddingBuilder(
         df=df,
