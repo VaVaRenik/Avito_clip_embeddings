@@ -305,20 +305,13 @@ def process_df(df, root_dirs, glob_pattern):
 
 
 train_df_paths = [
-        "/app/data/avito-tables/train_part_0001.snappy.parquet",
+        "/app/data/tables/train_part_0001.snappy.parquet",
         # "/app/data/avito-tables/train_part_0002.snappy.parquet",
         # "/app/data/avito-tables/train_part_0003.snappy.parquet",
         # "/app/data/avito-tables/train_part_0004.snappy.parquet"
     ]
 train_root_dirs = [
-    "/app/data/avito-images-1-3",
-    # "/app/data/avito-part-1-patch-2",
-    # "/app/data/avito-part-2-patch-1",
-    # "/app/data/avito-part-2-patch-2",
-    # "/app/data/avito-part-3-patch-1",
-    # "/app/data/avito-part-3-patch-2",
-    # "/app/data/avito-part-4-patch-1",
-    # "/app/data/avito-part-4-patch-2"
+    "/app/data/train_images"
 ]
 
 test_df_paths = [
@@ -326,8 +319,7 @@ test_df_paths = [
     # "/app/data/avito-tables/test_part_0002.snappy.parquet"
 ]
 test_root_dirs = [
-    "/app/data/avito-test-patch-1",
-    "avito-test-patch-1"
+    "/app/data/test_images"
 ]
 
 if __name__ == "__main__":
