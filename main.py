@@ -2,7 +2,6 @@ import json
 import os
 import zipfile
 from pathlib import Path
-import gc
 
 import numpy as np
 import pandas as pd
@@ -11,7 +10,6 @@ from PIL import Image
 import torch
 import clip
 import torch.nn.functional as F
-from transformers import CLIPModel, CLIPProcessor
 from kaggle.api.kaggle_api_extended import KaggleApi
 
 
