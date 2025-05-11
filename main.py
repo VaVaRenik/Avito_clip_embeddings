@@ -2,6 +2,7 @@ import json
 import os
 import zipfile
 from pathlib import Path
+import gc
 
 import numpy as np
 import pandas as pd
@@ -305,24 +306,24 @@ def process_df(df, root_dirs, glob_pattern):
 
 train_df_paths = [
         "/app/data/avito-tables/train_part_0001.snappy.parquet",
-        "/app/data/avito-tables/train_part_0002.snappy.parquet",
-        "/app/data/avito-tables/train_part_0003.snappy.parquet",
-        "/app/data/avito-tables/train_part_0004.snappy.parquet"
+        # "/app/data/avito-tables/train_part_0002.snappy.parquet",
+        # "/app/data/avito-tables/train_part_0003.snappy.parquet",
+        # "/app/data/avito-tables/train_part_0004.snappy.parquet"
     ]
 train_root_dirs = [
     "/app/data/avito-images-1-3",
-    "/app/data/avito-part-1-patch-2",
-    "/app/data/avito-part-2-patch-1",
-    "/app/data/avito-part-2-patch-2",
-    "/app/data/avito-part-3-patch-1",
-    "/app/data/avito-part-3-patch-2",
-    "/app/data/avito-part-4-patch-1",
-    "/app/data/avito-part-4-patch-2"
+    # "/app/data/avito-part-1-patch-2",
+    # "/app/data/avito-part-2-patch-1",
+    # "/app/data/avito-part-2-patch-2",
+    # "/app/data/avito-part-3-patch-1",
+    # "/app/data/avito-part-3-patch-2",
+    # "/app/data/avito-part-4-patch-1",
+    # "/app/data/avito-part-4-patch-2"
 ]
 
 test_df_paths = [
     "/app/data/avito-tables/test_part_0001.snappy.parquet",
-    "/app/data/avito-tables/test_part_0002.snappy.parquet"
+    # "/app/data/avito-tables/test_part_0002.snappy.parquet"
 ]
 test_root_dirs = [
     "/app/data/avito-test-patch-1",
@@ -337,12 +338,12 @@ if __name__ == "__main__":
         output_path = f"/app/output/train_part_{i}.npz"
         np.savez_compressed(output_path, output)
 
-    for i, path in enumerate(test_df_paths, 1):
-        df = pd.read_parquet(path)
-        output = process_df(df, root_dirs=test_root_dirs, glob_pattern="part_")
+    # for i, path in enumerate(test_df_paths, 1):
+    #     df = pd.read_parquet(path)
+    #     output = process_df(df, root_dirs=test_root_dirs, glob_pattern="part_")
 
-        output_path = f"/app/output/test_part_{i}.npz"
-        np.savez_compressed(output_path, output)
+    #     output_path = f"/app/output/test_part_{i}.npz"
+    #     np.savez_compressed(output_path, output)
 
     api = KaggleApi()
     api.authenticate()
