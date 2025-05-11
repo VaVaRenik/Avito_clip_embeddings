@@ -26,7 +26,7 @@ RUN chmod 600 /root/.kaggle/kaggle.json
 # 🔽 Тренировочные изображения
 RUN kaggle datasets download -d vanyarekunov/avito-images-1-3 -p /app/data/train_images && \
     unzip /app/data/train_images/avito-images-1-3.zip -d /app/data/train_images && \
-    rm /app/data/train_images/avito-images-1-3.zip && \
+    rm /app/data/train_images/avito-images-1-3.zip
 #    kaggle datasets download -d vavarenikk/avito-part-1-patch-2 -p /app/data/train_images && \
 #    unzip /app/data/train_images/avito-part-1-patch-2.zip -d /app/data/train_images && \
 #    rm /app/data/train_images/avito-part-1-patch-2.zip && \
